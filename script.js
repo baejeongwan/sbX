@@ -52,7 +52,7 @@ function boardLoader() {
             <div class="col-2">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" id="${index}-title">${element} : 0</h5>
+                        <h5 class="card-title" id='${index}-title'>${element} : 0</h5>
                         <button onclick="modScore(${index})" class="btn btn-primary">점수</button>
                         <button onclick="kill(${index})" class="btn btn-danger">아웃</button>
                     </div>
@@ -133,7 +133,8 @@ function findWinners() {
 }
 
 function startDisplayResult() {
-    if (!(GameData == [] || GameData == undefined || GameData == null)) {
+    if (GameData == [] || GameData == undefined || GameData == null || GameData.length == 0) {
+        resultModeSetModal.hide()
         notifyUser("오류", "게임을 시작하세요")
     } else {
 
