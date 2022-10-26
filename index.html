@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>점수판</title>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT' crossorigin='anonymous'>
+        <link rel="stylesheet" href="./style.css" type="text/css">
+    </head>
+    <body>
+        <!-- Start Game Modal -->
+        <div class="modal fade" id="startGameModal" tabindex="-1" aria-labelledby="startGameModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="startGameModalLabel">새 게임 만들기</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h1>새로운 게임 시작하기</h1>
+                        <p>새로운 게임을 시작하려면 게임 셋업 파일이 필요합니다. 파일을 선택해주세요. 파일은 일반적으로 JSON 포맷입니다.</p>
+                        <input type="file" class="form-control" id="newGameDataFile" placeholder="파일 선택" accept="application/json">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary" onclick="gameLoader()">시작하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notify Modal -->
+        <div class="modal fade" id="notifyModal" tabindex="-1" aria-labelledby="notifyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="notifyModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="notifyModalBody">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modscore Modal-->
+        <div class='modal fade' id='modScoreModal' tabindex='-1' aria-labelledby='modScoreModalLabel' aria-hidden='true'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h1 class='modal-title fs-5' id='modScoreModalLabel'>점수 관리</h1>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body'>
+                        <h1 id="modScoreUser">XXX의 점수 변경</h1>
+                        <p id="modScoreCurrentScore">XXX의 현재 점수: X점</p>
+                        <span id="modScoreAfterCh">XXX의 변경후 점수: </span><input type="number" id="modScoreInput" class="form-control">
+                        <input type="hidden" id="modScorePlayerIDHidden">
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-primary' id="modScoreConfirmBtn" onclick="setScoreUsingModal()">저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='modal fade' id='resultModeSetModal' tabindex='-1' aria-labelledby='resultModeSetModalLabel' aria-hidden='true'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h1 class='modal-title fs-5' id='resultModeSetModalLabel'>표시 모드 설정</h1>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body'>
+                        <h3>현재 순위를 중간순위로 표시할까요? 아니면 최종 순위로 표시할까요?</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="resultDisplayModeRadio" id="resultDisplayModeRadio1" value="viewAsFinal" checked>
+                            <label class="form-check-label" for="resultDisplayModeRadio1">
+                                최종 순위로 표시 <br />
+                                <small>이 선택지만 가능합니다.</small>
+                            </label>
+                          </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="resultDisplayModeRadio" id="resultDisplayModeRadio2" value="viewAsMid" disabled>
+                            <label class="form-check-label" for="resultDisplayModeRadio2">
+                                중간 순위로 표시 <br />
+                                <small>단순하게 표시합니다. 모든 플레이어의 현황이 표시됩니다.</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>닫기</button>
+                        <button type="button" class="btn btn-primary" onclick="startDisplayResult()">보기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='modal fade' id='resultModal' tabindex='-1' aria-labelledby='resultModalLabel' aria-hidden='true'>
+            <div class='modal-dialog modal-fullscreen'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h1 class='modal-title fs-5' id='resultModalLabel'>우승자</h1>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body'>
+                        <div id="titleArea"></div>
+                        <div id="resultModalBody">
+
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+  
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">점수판</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <button class="btn btn-primary mb-2 mx-1" onclick="findWinners()">우승자 뽑기</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-danger mx-1" onclick="beginNewGame()">게임 새로 시작</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-danger mx-1" onclick="document.querySelector('body').requestFullscreen()">전체화면</button>
+                        </li>
+                        <li class="nav-item dropdown mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            추가 메뉴
+                            </a>
+                            <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">새 게임 만들기 도우미</a></li>
+                            <li><a class="dropdown-item" href="#">타이머</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="mailto:jayden.bae@outlook.kr">제작자한테 이메일 전송</a></li>
+                            <li><a class="dropdown-item" onclick="notifyUser('점수판 v1.0', '배정완 만듬')">정보</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class='container'>
+            <noscript><h1>자바스크립트가 필요합니다.</h1></noscript>
+            <h1>새로운 게임 시작하기</h1>
+            <p>상단 게임 새로시작을 눌러주세요.</p>
+        </div>
+        <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8' crossorigin='anonymous'></script>
+        <script src="./script.js"></script>
+    </body>
+</html>

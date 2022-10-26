@@ -1,0 +1,7 @@
+{
+    "gameDataFileV": 1,
+    "gameName": "새 게임",
+    "cntOfWinners": 5,
+    "isDeadAvailable": true,
+    "players": ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+}
