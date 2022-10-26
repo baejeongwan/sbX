@@ -64,7 +64,7 @@ function boardLoader() {
             <div class="col-2">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" id="${index}-title>${element} : 0</h5>
+                        <h5 class="card-title" id="${index}-title">${element} : 0</h5>
                         <button onclick="modScore(${index})" class="btn btn-primary">점수</button>
                     </div>
                 </div>
