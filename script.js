@@ -299,7 +299,7 @@ function startDisplayResult() {
                 getId("resultModalBody").innerHTML += `
                     <div class="card mb-2" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title">3등: ${winnerNames}</h5>
+                            <h5 class="card-title"4등: ${winnerNames}</h5>
                             <p class="card-text">점수: ${orderedByScore[3][0].score}</p>
                         </div>
                     </div>`
