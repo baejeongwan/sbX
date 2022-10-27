@@ -39,7 +39,7 @@ function gameLoader() {
 
 function boardLoader() {
     //DRAW
-    document.querySelector(".container").innerHTML = "<h1 class='text-center'>" + fileJSON.gameName + "</h1>"
+    document.querySelector(".container").innerHTML = "<h1 class='text-center text-white'>" + fileJSON.gameName + "</h1>"
     let rowN = 0;
     fileJSON.players.forEach((element, index, array) => {
         let colN = index % 5
@@ -50,7 +50,7 @@ function boardLoader() {
         if (fileJSON.isDeadAvailable) {
             document.getElementById("row" + rowN).innerHTML += `
             <div class="col-2">
-                <div class="card">
+                <div class="card score-card">
                     <div class="card-body">
                         <h5 class="card-title" id='${index}-title'>${element} : 0</h5>
                         <button onclick="modScore(${index})" class="btn btn-primary">점수</button>
@@ -62,7 +62,7 @@ function boardLoader() {
         } else {
             document.getElementById("row" + rowN).innerHTML += `
             <div class="col-2">
-                <div class="card">
+                <div class="card score-card">
                     <div class="card-body">
                         <h5 class="card-title" id="${index}-title">${element} : 0</h5>
                         <button onclick="modScore(${index})" class="btn btn-primary">점수</button>
