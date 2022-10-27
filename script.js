@@ -277,6 +277,37 @@ function startDisplayResult() {
                 console.log("No 3rd")
             }
             //#endregion
+            //#region 4nd
+            if (orderedByScore[3] == undefined) {
+                console.log("NO 3nd")
+            } else if (orderedByScore[3].length == 1) {
+                getId("resultModalBody").innerHTML += `
+                    <div class="card mb-2" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: #cd7f32">4등: ${orderedByScore[3][0].playerName}</h5>
+                            <p class="card-text">점수: ${orderedByScore[3][0].score}</p>
+                        </div>
+                    </div>`
+                
+            } else if (orderedByScore[3].length > 1) {
+                let winnerNames = orderedByScore[3][0].playerName
+                for (let i = 1; i < orderedByScore[3].length; i++) {
+                    element = orderedByScore[3][i]
+                    let name2add = ", " + element.playerName
+                    winnerNames += name2add
+                }
+                getId("resultModalBody").innerHTML += `
+                    <div class="card mb-2" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: #cd7f32">3등: ${winnerNames}</h5>
+                            <p class="card-text">점수: ${orderedByScore[3][0].score}</p>
+                        </div>
+                    </div>`
+            } else {
+                //DO NONE
+                console.log("No 4nd")
+            }
+            //#endregion
             resultModal.show()
             resultModeSetModal.hide()
             GameData = []
